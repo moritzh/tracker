@@ -14,11 +14,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var addButton: UIButton!
     
-    var errorViewController : ErrorViewController?
+    var errorViewController = ErrorViewController()
     
-    let locationManager = CLLocationManager()
-    
-    var markedLocations : [CLLocationCoordinate2D] = []
+    var presenter : Presenter?
     
     override func viewDidLoad() {
   
@@ -27,67 +25,32 @@ class ViewController: UIViewController {
         mapView.showsUserLocation = true
         mapView.userTrackingMode = .follow
         mapView.delegate = self
+        
+        if presenter == nil {
+            { [unowned self] in
+                let presenterImplementation = PresenterImplementation()
+                presenterImplementation.stateUpdatable = self
+                self.presenter = presenterImplementation
+            }()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         
-        var shouldShowErrorScreen = true
+        self.presenter?.prepare()
         
-        if (CLLocationManager.authorizationStatus() == .notDetermined){
-            locationManager.requestWhenInUseAuthorization()
-        } else if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse){
-            shouldShowErrorScreen = false
-        }
+        errorViewController.willMove(toParentViewController: self)
+        view.addSubview(errorViewController.view)
+        errorViewController.view.frame = view.frame
+        addChildViewController(errorViewController)
+        errorViewController.didMove(toParentViewController: self)
         
-        if (shouldShowErrorScreen){
-            showErrorScreen()
-        }
+        errorViewController.view.isHidden = true
     }
-    
-    func showErrorScreen () {
-        guard errorViewController == nil else {
-            return
-        }
-        errorViewController = ErrorViewController()
-        
-        if let errorViewController = errorViewController {
-            errorViewController.willMove(toParentViewController: self)
-            view.addSubview(errorViewController.view)
-            addChildViewController(errorViewController)
-            errorViewController.didMove(toParentViewController: self)
-        }
-    }
-    
-    func hideErrorScreen () {
-        guard errorViewController != nil else {
-            return
-        }
-        
-        if let errorViewController = errorViewController {
-            errorViewController.willMove(toParentViewController: nil)
-            errorViewController.view.removeFromSuperview()
-            errorViewController.removeFromParentViewController()
-            errorViewController.didMove(toParentViewController: nil)
-        }
-    }
+
     
     @IBAction func addButtonAction(_ sender: Any) {
-        self.markedLocations.append(mapView.userLocation.coordinate)
-        
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = mapView.userLocation.coordinate
-        
-        self.mapView.addAnnotation(annotation)
-    }
-}
-
-extension ViewController : CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if (status == .authorizedWhenInUse){
-            hideErrorScreen()
-        } else {
-            showErrorScreen()
-        }
+        self.presenter?.addCurrentLocation()
     }
 }
 
@@ -98,6 +61,22 @@ extension ViewController : MKMapViewDelegate {
         } else {
             return nil
         }
+    }
+}
+
+extension ViewController : StateUpdatable {
+    
+    func updateWithState(_ state: State) {
+        let annotations = state.trackedLocations.map { (coordinate) -> MKAnnotation in
+            let pointAnnotation = MKPointAnnotation()
+            pointAnnotation.coordinate = coordinate
+            return pointAnnotation
+        }
+        
+        self.mapView.removeAnnotations(self.mapView.annotations)
+        self.mapView.addAnnotations(annotations)
+        
+        self.errorViewController.view.isHidden = state.authorized
     }
 }
 

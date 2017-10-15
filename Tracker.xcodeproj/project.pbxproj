@@ -15,6 +15,8 @@
 		8E65DEE81F92CD41007AA61B /* TrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E65DEE71F92CD41007AA61B /* TrackerTests.swift */; };
 		8E65DEF31F92CD41007AA61B /* TrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E65DEF21F92CD41007AA61B /* TrackerUITests.swift */; };
 		8E65DF011F92D05F007AA61B /* ErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E65DF001F92D05F007AA61B /* ErrorViewController.swift */; };
+		8E65DF031F92D70F007AA61B /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E65DF021F92D70F007AA61B /* State.swift */; };
+		8E65DF051F92DA52007AA61B /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E65DF041F92DA52007AA61B /* Presenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		8E65DEF21F92CD41007AA61B /* TrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerUITests.swift; sourceTree = "<group>"; };
 		8E65DEF41F92CD41007AA61B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E65DF001F92D05F007AA61B /* ErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewController.swift; sourceTree = "<group>"; };
+		8E65DF021F92D70F007AA61B /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
+		8E65DF041F92DA52007AA61B /* Presenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,12 +104,14 @@
 			isa = PBXGroup;
 			children = (
 				8E65DED21F92CD40007AA61B /* AppDelegate.swift */,
-				8E65DED41F92CD40007AA61B /* ViewController.swift */,
 				8E65DED61F92CD40007AA61B /* Main.storyboard */,
 				8E65DED91F92CD40007AA61B /* Assets.xcassets */,
 				8E65DEDB1F92CD40007AA61B /* LaunchScreen.storyboard */,
 				8E65DEDE1F92CD40007AA61B /* Info.plist */,
 				8E65DF001F92D05F007AA61B /* ErrorViewController.swift */,
+				8E65DF021F92D70F007AA61B /* State.swift */,
+				8E65DED41F92CD40007AA61B /* ViewController.swift */,
+				8E65DF041F92DA52007AA61B /* Presenter.swift */,
 			);
 			path = Tracker;
 			sourceTree = "<group>";
@@ -265,6 +271,8 @@
 				8E65DED51F92CD40007AA61B /* ViewController.swift in Sources */,
 				8E65DF011F92D05F007AA61B /* ErrorViewController.swift in Sources */,
 				8E65DED31F92CD40007AA61B /* AppDelegate.swift in Sources */,
+				8E65DF031F92D70F007AA61B /* State.swift in Sources */,
+				8E65DF051F92DA52007AA61B /* Presenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
